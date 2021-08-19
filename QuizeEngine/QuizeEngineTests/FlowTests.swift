@@ -15,9 +15,9 @@ class Flow {
         guard let firstQuestion = questions.first else { return }
         router.routeTo(question: firstQuestion) { answer in
             guard
-            let firstQuestionIndex = self.questions.firstIndex(of: firstQuestion)
-                else {return}
-                let nextQuestionIndex = self.questions.index(after: firstQuestionIndex)
+                let firstQuestionIndex = self.questions.firstIndex(of: firstQuestion)
+            else {return}
+            let nextQuestionIndex = self.questions.index(after: firstQuestionIndex)
             let nextQuestion = self.questions[nextQuestionIndex]
             self.router.routeTo(question: nextQuestion) { _ in
                 
@@ -39,8 +39,7 @@ protocol Router {
 
 final class FlowTests: XCTestCase {
     func test_start_withNoQuestion_Should_NotRouteToQuestion() {
-        let router = SpyRouter()
-        let sut = Flow(questions: [], router: router)
+        let (sut, router) = makeSUT(questions: [])
         
         sut.start()
         
@@ -48,17 +47,15 @@ final class FlowTests: XCTestCase {
     }
     
     func test_start_withOneQuestion_Should_RouteToCorrectQuestion() {
-        let router = SpyRouter()
-        let sut = Flow(questions: ["Q1"], router: router)
+        let (sut, router) = makeSUT(questions: ["Q1"])
         
         sut.start()
         
         XCTAssertEqual(router.routedQuestions, ["Q1"])
     }
-
+    
     func test_start_withTwoQuestions_Should_RouteToFirstQuestion() {
-        let router = SpyRouter()
-        let sut = Flow(questions: ["Q1", "Q2"], router: router)
+        let (sut, router) = makeSUT(questions: ["Q1" , "Q2"])
         
         sut.start()
         
@@ -66,8 +63,7 @@ final class FlowTests: XCTestCase {
     }
     
     func test_startTwice_withTwoQuestions_Should_RouteToFirstQuestionTwice() {
-        let router = SpyRouter()
-        let sut = Flow(questions: ["Q1", "Q2"], router: router)
+        let (sut, router) = makeSUT(questions: ["Q1" , "Q2"])
         
         sut.start()
         sut.start()
@@ -76,8 +72,7 @@ final class FlowTests: XCTestCase {
     }
     
     func test_startAndAnswerFirstQuestionWithTwoQuestion_Should_RouteToSecondQuestion() throws {
-        let router = SpyRouter()
-        let sut = Flow(questions: ["Q1", "Q2"], router: router)
+        let (sut, router) = makeSUT(questions: ["Q1" , "Q2"])
         
         
         sut.start()
@@ -89,12 +84,23 @@ final class FlowTests: XCTestCase {
     
     // MARK: - Helper
     
+    typealias SUT = Flow
+    func makeSUT(
+        questions: [Question],
+        file: StaticString = #filePath,
+        line: UInt = #line) -> (SUT, SpyRouter)
+    {
+        let router = SpyRouter()
+        let sut = Flow(questions: questions, router: router)
+        return (sut, router)
+    }
+    
     class SpyRouter: Router {
         var routedQuestions: [Question] = []
         var answerCallbacks:[AnswerCallback] = []
         
         var routedQuestionCount: Int { routedQuestions.count }
-
+        
         func routeTo(question: Question, answerCallback: @escaping AnswerCallback) {
             routedQuestions.append(question)
             answerCallbacks.append(answerCallback)
