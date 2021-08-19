@@ -35,13 +35,13 @@ final class FlowTests: XCTestCase {
         XCTAssertEqual(router.routedQuestionCount, 0)
     }
     
-    func test_start_withOneQuestion_Should_RouteToQuestion() {
+    func test_start_withOneQuestion_Should_RouteToCorrectQuestion() {
         let router = SpyRouter()
         let sut = Flow(questions: ["Q1"], router: router)
         
         sut.start()
         
-        XCTAssertEqual(router.routedQuestionCount, 1)
+        XCTAssertEqual(router.routedQuestions, ["Q1"])
     }
 
     func test_start_withTwoQuestions_Should_RouteToFirstQuestion() {
