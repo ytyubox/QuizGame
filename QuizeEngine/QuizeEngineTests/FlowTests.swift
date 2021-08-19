@@ -30,6 +30,7 @@ class Flow {
         }
         let nextQuestionIndex = questions.index(after: currentQuestionIndex)
         guard questions.indices.contains(nextQuestionIndex) else {
+            router.routeTo(result: ["Q1":"A1"])
             return
         }
         let nextQuestion = questions[nextQuestionIndex]
@@ -56,9 +57,8 @@ protocol Router {
 // MARK: - FlowTests
 
 final class FlowTests: XCTestCase {
-    
     // MARK: - Route to Next Question
-    
+
     func test_start_withNoQuestion_Should_NotRouteToQuestion() {
         let (sut, router) = makeSUT(questions: [])
 
@@ -122,17 +122,29 @@ final class FlowTests: XCTestCase {
 
         XCTAssertEqual(router.routedQuestions, ["Q1"])
     }
-    
+
     // MARK: - Route to Result
 
-    func test_start_withNoQuestion_Should_NotRouteToResult() {
+    func test_start_withNoQuestion_Should_RouteToResultWithEmpty() {
         let (sut, router) = makeSUT(questions: [])
 
         sut.start()
-        let emptyQuizResult:QuizResult = [:]
+        let emptyQuizResult: QuizResult = [:]
         XCTAssertEqual(router.routedResults, [emptyQuizResult])
     }
-    
+
+    func test_startAndAnswerFirstQuestionWithOneQuestion_Should_RouteToResult() throws {
+        let (sut, router) = makeSUT(questions: ["Q1"])
+
+        sut.start()
+
+        router.simulateAnswer("A1")
+
+        XCTAssertEqual(router.routedResults, [
+            makeResult(("Q1", "A1"))
+        ])
+    }
+
     // MARK: - Helper
 
     typealias SUT = Flow
@@ -149,10 +161,8 @@ final class FlowTests: XCTestCase {
     }
 
     class SpyRouter: Router {
-        
-        
         var routedQuestions: [Question] = []
-        var routedResults:[QuizResult] = []
+        var routedResults: [QuizResult] = []
         var answerCallbacks: [AnswerCallback] = []
 
         var routedQuestionCount: Int { routedQuestions.count }
@@ -165,8 +175,17 @@ final class FlowTests: XCTestCase {
         func simulateAnswer(_ answer: Question) {
             answerCallbacks.last?(answer)
         }
+
         func routeTo(result: QuizResult) {
             routedResults.append(result)
         }
+    }
+
+    private func makeResult(_ pairs: (Question, Answer) ...) -> QuizResult {
+        var quizResult: QuizResult = [:]
+        for (question, answer) in pairs {
+            quizResult[question] = answer
+        }
+        return quizResult
     }
 }
