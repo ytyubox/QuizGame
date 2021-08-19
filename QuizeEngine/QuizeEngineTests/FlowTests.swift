@@ -20,13 +20,14 @@ class Flow {
     }
     
     private func routeNext(_ question: Question) {
-        guard
-            let currentQuestionIndex = questions
-                .firstIndex(of: question)
-        else {
+        guard let currentQuestionIndex = questions
+                .firstIndex(of: question) else {
             return
         }
         let nextQuestionIndex = questions.index(after: currentQuestionIndex)
+        guard questions.indices.contains(nextQuestionIndex) else {
+            return
+        }
         let nextQuestion = questions[nextQuestionIndex]
         router.routeTo(question: nextQuestion) {
             [unowned self] answer in
@@ -100,6 +101,17 @@ final class FlowTests: XCTestCase {
         router.simulateAnswer("A2")
         
         XCTAssertEqual(router.routedQuestions, ["Q1", "Q2", "Q3"])
+    }
+    
+    func test_startAndAnswerFirstQuestionWithOneQuestion_ShouldNot_RouteToAnotherQuestion() throws {
+        let (sut, router) = makeSUT(questions: ["Q1"])
+        
+        
+        sut.start()
+        
+        router.simulateAnswer("A1")
+        
+        XCTAssertEqual(router.routedQuestions, ["Q1"])
     }
     
     // MARK: - Helper
