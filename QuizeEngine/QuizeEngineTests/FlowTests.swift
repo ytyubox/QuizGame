@@ -12,8 +12,8 @@ class Flow {
     }
     
     func start() {
-        if questions.isEmpty { return }
-        router.routeTo(question: questions.first!)
+        guard let firstQuestion = questions.first else { return }
+        router.routeTo(question: firstQuestion)
     }
 }
 
