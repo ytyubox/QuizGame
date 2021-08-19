@@ -13,7 +13,9 @@ class Flow {
     
     func start() {
         guard let firstQuestion = questions.first else { return }
-        router.routeTo(question: firstQuestion) { answer in
+        router.routeTo(question: firstQuestion) {
+            [unowned self]
+            answer in
             guard
                 let firstQuestionIndex = self.questions.firstIndex(of: firstQuestion)
             else {return}
@@ -92,6 +94,8 @@ final class FlowTests: XCTestCase {
     {
         let router = SpyRouter()
         let sut = Flow(questions: questions, router: router)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        trackForMemoryLeaks(router, file: file, line: line)
         return (sut, router)
     }
     

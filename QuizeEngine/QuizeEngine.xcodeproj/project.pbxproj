@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D2D2E96B26CE1477000626F2 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D2E96A26CE1477000626F2 /* XCTestCase+MemoryLeakTracking.swift */; };
 		D2D38DAA26CB9BC3008759F3 /* QuizeEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D38DA026CB9BC3008759F3 /* QuizeEngine.framework */; };
 		D2D38DBB26CBA4D7008759F3 /* FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D38DBA26CBA4D7008759F3 /* FlowTests.swift */; };
 /* End PBXBuildFile section */
@@ -22,6 +23,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D2D2E96A26CE1477000626F2 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		D2D38DA026CB9BC3008759F3 /* QuizeEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QuizeEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2D38DA426CB9BC3008759F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2D38DA926CB9BC3008759F3 /* QuizeEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuizeEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				D2D38DB026CB9BC3008759F3 /* Info.plist */,
+				D2D2E96A26CE1477000626F2 /* XCTestCase+MemoryLeakTracking.swift */,
 				D2D38DBA26CBA4D7008759F3 /* FlowTests.swift */,
 			);
 			path = QuizeEngineTests;
@@ -199,6 +202,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2D38DBB26CBA4D7008759F3 /* FlowTests.swift in Sources */,
+				D2D2E96B26CE1477000626F2 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
