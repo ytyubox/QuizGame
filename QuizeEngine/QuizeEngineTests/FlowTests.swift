@@ -5,7 +5,7 @@ import XCTest
 class Flow {
     let router: Router
     let questions: [Question]
-    private var result:[Question: Answer] = [:]
+    private var result: [Question: Answer] = [:]
 
     init(questions: [Question], router: Router) {
         self.router = router
@@ -19,17 +19,19 @@ class Flow {
         }
         router.routeTo(question: firstQuestion) {
             [unowned self] answer in
-            result[firstQuestion] = answer
-            routeNext(firstQuestion)
+            routeNext(firstQuestion, answer)
         }
     }
 
-    private func routeNext(_ question: Question) {
+    private func routeNext(_ question: Question, _ answer: Answer) {
         guard let currentQuestionIndex = questions
             .firstIndex(of: question)
         else {
             return
         }
+
+        gatherResult(question, answer: answer)
+
         let nextQuestionIndex = questions.index(after: currentQuestionIndex)
         guard questions.indices.contains(nextQuestionIndex) else {
             router.routeTo(result: result)
@@ -38,9 +40,12 @@ class Flow {
         let nextQuestion = questions[nextQuestionIndex]
         router.routeTo(question: nextQuestion) {
             [unowned self] answer in
-            self.result[nextQuestion] = answer
-            self.routeNext(nextQuestion)
+            self.routeNext(nextQuestion, answer)
         }
+    }
+
+    func gatherResult(_ question: Question, answer: Answer) {
+        result[question] = answer
     }
 }
 
