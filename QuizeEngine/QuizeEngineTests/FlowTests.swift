@@ -4,23 +4,35 @@ import XCTest
 
 class Flow {
     let router: Router
-    let questions: [String]
+    let questions: [Question]
     
-    init(questions: [String], router: Router) {
+    init(questions: [Question], router: Router) {
         self.router = router
         self.questions = questions
     }
     
     func start() {
         guard let firstQuestion = questions.first else { return }
-        router.routeTo(question: firstQuestion)
+        router.routeTo(question: firstQuestion) { answer in
+            guard
+            let firstQuestionIndex = self.questions.firstIndex(of: firstQuestion)
+                else {return}
+                let nextQuestionIndex = self.questions.index(after: firstQuestionIndex)
+            let nextQuestion = self.questions[nextQuestionIndex]
+            self.router.routeTo(question: nextQuestion) { _ in
+                
+            }
+        }
     }
 }
 
 // MARK: - Router
 
+typealias Question = String
+
 protocol Router {
-    func routeTo(question: String)
+    typealias AnswerCallback = (Question) -> Void
+    func routeTo(question: Question, answerCallback: @escaping AnswerCallback)
 }
 
 // MARK: - FlowTests
@@ -63,14 +75,33 @@ final class FlowTests: XCTestCase {
         XCTAssertEqual(router.routedQuestions, ["Q1", "Q1"])
     }
     
+    func test_startAndAnswerFirstQuestionWithTwoQuestion_Should_RouteToSecondQuestion() throws {
+        let router = SpyRouter()
+        let sut = Flow(questions: ["Q1", "Q2"], router: router)
+        
+        
+        sut.start()
+        
+        router.simulateAnswer("A1")
+        
+        XCTAssertEqual(router.routedQuestions, ["Q1", "Q2"])
+    }
+    
     // MARK: - Helper
     
     class SpyRouter: Router {
-        var routedQuestionCount: Int { routedQuestions.count }
-        var routedQuestions: [String] = []
+        var routedQuestions: [Question] = []
+        var answerCallbacks:[AnswerCallback] = []
         
-        func routeTo(question: String) {
+        var routedQuestionCount: Int { routedQuestions.count }
+
+        func routeTo(question: Question, answerCallback: @escaping AnswerCallback) {
             routedQuestions.append(question)
+            answerCallbacks.append(answerCallback)
+        }
+        
+        func simulateAnswer(_ answer: Question) {
+            answerCallbacks.first?(answer)
         }
     }
 }
