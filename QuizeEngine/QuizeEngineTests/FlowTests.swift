@@ -14,16 +14,23 @@ class Flow {
     func start() {
         guard let firstQuestion = questions.first else { return }
         router.routeTo(question: firstQuestion) {
-            [unowned self]
-            answer in
-            guard
-                let firstQuestionIndex = self.questions.firstIndex(of: firstQuestion)
-            else {return}
-            let nextQuestionIndex = self.questions.index(after: firstQuestionIndex)
-            let nextQuestion = self.questions[nextQuestionIndex]
-            self.router.routeTo(question: nextQuestion) { _ in
-                
-            }
+            [unowned self] answer in
+            routeNext(firstQuestion)
+        }
+    }
+    
+    private func routeNext(_ question: Question) {
+        guard
+            let currentQuestionIndex = questions
+                .firstIndex(of: question)
+        else {
+            return
+        }
+        let nextQuestionIndex = questions.index(after: currentQuestionIndex)
+        let nextQuestion = questions[nextQuestionIndex]
+        router.routeTo(question: nextQuestion) {
+            [unowned self] answer in
+            self.routeNext(nextQuestion)
         }
     }
 }
@@ -83,6 +90,17 @@ final class FlowTests: XCTestCase {
         
         XCTAssertEqual(router.routedQuestions, ["Q1", "Q2"])
     }
+    func test_startAndAnswerFirstAndSecondQuestionWithThreeQuestion_Should_RouteToThirdQuestion() throws {
+        let (sut, router) = makeSUT(questions: ["Q1" , "Q2", "Q3"])
+        
+        
+        sut.start()
+        
+        router.simulateAnswer("A1")
+        router.simulateAnswer("A2")
+        
+        XCTAssertEqual(router.routedQuestions, ["Q1", "Q2", "Q3"])
+    }
     
     // MARK: - Helper
     
@@ -111,7 +129,7 @@ final class FlowTests: XCTestCase {
         }
         
         func simulateAnswer(_ answer: Question) {
-            answerCallbacks.first?(answer)
+            answerCallbacks.last?(answer)
         }
     }
 }
