@@ -12,7 +12,10 @@ class Flow {
     }
 
     func start() {
-        guard let firstQuestion = questions.first else { return }
+        guard let firstQuestion = questions.first else {
+            router.routeTo(result: [:])
+            return
+        }
         router.routeTo(question: firstQuestion) {
             [unowned self] _ in
             routeNext(firstQuestion)
@@ -39,17 +42,23 @@ class Flow {
 // MARK: - Router
 
 typealias Question = String
+typealias Answer = String
+typealias QuizResult = [Question: Answer]
 
 // MARK: - Router
 
 protocol Router {
     typealias AnswerCallback = (Question) -> Void
     func routeTo(question: Question, answerCallback: @escaping AnswerCallback)
+    func routeTo(result: QuizResult)
 }
 
 // MARK: - FlowTests
 
 final class FlowTests: XCTestCase {
+    
+    // MARK: - Route to Next Question
+    
     func test_start_withNoQuestion_Should_NotRouteToQuestion() {
         let (sut, router) = makeSUT(questions: [])
 
@@ -113,7 +122,17 @@ final class FlowTests: XCTestCase {
 
         XCTAssertEqual(router.routedQuestions, ["Q1"])
     }
+    
+    // MARK: - Route to Result
 
+    func test_start_withNoQuestion_Should_NotRouteToResult() {
+        let (sut, router) = makeSUT(questions: [])
+
+        sut.start()
+        let emptyQuizResult:QuizResult = [:]
+        XCTAssertEqual(router.routedResults, [emptyQuizResult])
+    }
+    
     // MARK: - Helper
 
     typealias SUT = Flow
@@ -130,7 +149,10 @@ final class FlowTests: XCTestCase {
     }
 
     class SpyRouter: Router {
+        
+        
         var routedQuestions: [Question] = []
+        var routedResults:[QuizResult] = []
         var answerCallbacks: [AnswerCallback] = []
 
         var routedQuestionCount: Int { routedQuestions.count }
@@ -142,6 +164,9 @@ final class FlowTests: XCTestCase {
 
         func simulateAnswer(_ answer: Question) {
             answerCallbacks.last?(answer)
+        }
+        func routeTo(result: QuizResult) {
+            routedResults.append(result)
         }
     }
 }
