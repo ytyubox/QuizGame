@@ -10,7 +10,7 @@ class Flow {
     
     func start() {
         if questions.isEmpty {return}
-        router.routeTo(question: "any question")
+        router.routeTo(question: questions.first!)
     }
 }
 protocol Router {
@@ -18,9 +18,11 @@ protocol Router {
 }
 
 class SpyRouter: Router {
-    var routedQuestionCount = 0
+    var routedQuestionCount: Int {routedQuestions.count}
+    var routedQuestions:[String] = []
+    
     func routeTo(question: String) {
-        routedQuestionCount += 1
+        routedQuestions.append(question)
     }
 }
 
@@ -42,6 +44,14 @@ final class FlowTests: XCTestCase {
         sut.start()
         
         XCTAssertEqual(router.routedQuestionCount, 1)
+    }
+    func test_start_withTwoQuestions_Should_RouteToFirstQuestion() {
+        let router = SpyRouter()
+        let sut = Flow(questions: ["Q1", "Q2"], router: router)
+        
+        sut.start()
+        
+        XCTAssertEqual(router.routedQuestions, ["Q1"])
     }
 }
 
