@@ -5,6 +5,7 @@ import XCTest
 class Flow {
     let router: Router
     let questions: [Question]
+    private var result:[Question: Answer] = [:]
 
     init(questions: [Question], router: Router) {
         self.router = router
@@ -17,7 +18,8 @@ class Flow {
             return
         }
         router.routeTo(question: firstQuestion) {
-            [unowned self] _ in
+            [unowned self] answer in
+            result[firstQuestion] = answer
             routeNext(firstQuestion)
         }
     }
@@ -30,11 +32,13 @@ class Flow {
         }
         let nextQuestionIndex = questions.index(after: currentQuestionIndex)
         guard questions.indices.contains(nextQuestionIndex) else {
-            router.routeTo(result: ["Q1":"A1"])
+            router.routeTo(result: result)
             return
         }
         let nextQuestion = questions[nextQuestionIndex]
-        router.routeTo(question: nextQuestion) { [unowned self] _ in
+        router.routeTo(question: nextQuestion) {
+            [unowned self] answer in
+            self.result[nextQuestion] = answer
             self.routeNext(nextQuestion)
         }
     }
@@ -142,6 +146,19 @@ final class FlowTests: XCTestCase {
 
         XCTAssertEqual(router.routedResults, [
             makeResult(("Q1", "A1"))
+        ])
+    }
+
+    func test_startAndAnswerFirstAndSecondQuestionWithTwoQuestion_Should_RouteToResult() throws {
+        let (sut, router) = makeSUT(questions: ["Q1", "Q2"])
+
+        sut.start()
+
+        router.simulateAnswer("A1")
+        router.simulateAnswer("A2")
+
+        XCTAssertEqual(router.routedResults, [
+            makeResult(("Q1", "A1"), ("Q2", "A2"))
         ])
     }
 
