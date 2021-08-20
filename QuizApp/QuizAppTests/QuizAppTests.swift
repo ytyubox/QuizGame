@@ -17,7 +17,7 @@ import UIKit
 class QuestionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private var question: String = ""
     private var options: [String] = []
-    private var selection: ((String) -> Void)?
+    private var selection: (([String]) -> Void)?
     let headerLabel = UILabel()
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -26,7 +26,7 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
     }()
 
     static let cellReuseIdentifier = "Cell"
-    convenience init(question: String, options: [String], selection: @escaping (String) -> Void) {
+    convenience init(question: String, options: [String], selection: @escaping ([String]) -> Void) {
         self.init()
         self.question = question
         self.options = options
@@ -50,8 +50,10 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
 
-    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selection?(options[indexPath.row])
+    func tableView(_ tableView: UITableView, didSelectRowAt _: IndexPath) {
+        let selectedIndexPath = tableView.indexPathsForSelectedRows ?? []
+        let selectedOptions = selectedIndexPath.map { options[$0.row] }
+        selection?(selectedOptions)
     }
 }
 
@@ -74,15 +76,21 @@ class QuestionViewControllerTests: XCTestCase {
         XCTAssertEqual(makeSUT(options: ["A1", "A2"]).title(at: 1), "A2")
     }
 
-    func test_optionSelected_notifiesDelegate() throws {
-        var history: [String] = []
-        let sut = makeSUT(options: ["A1"]) { selected in
+    func test_MultipleOptionSelected_notifiesDelegate() throws {
+        var history: [[String]] = []
+        let sut = makeSUT(options: ["A1", "A2"]) { selected in
             history.append(selected)
         }
 
+        sut.tableView.allowsMultipleSelection = true
+
         sut.select(at: 0)
 
-        XCTAssertEqual(history, ["A1"])
+        XCTAssertEqual(history, [["A1"]])
+
+        sut.select(at: 1)
+
+        XCTAssertEqual(history, [["A1"], ["A1", "A2"]])
     }
 
     // MARK: - Helper
@@ -91,7 +99,7 @@ class QuestionViewControllerTests: XCTestCase {
     func makeSUT(
         question: String = "",
         options: [String] = [],
-        selection: @escaping (String) -> Void = { _ in },
+        selection: @escaping ([String]) -> Void = { _ in },
         file _: StaticString = #filePath,
         line _: UInt = #line
     ) -> SUT {
@@ -118,6 +126,7 @@ extension QuestionViewController {
 
     func select(at row: Int) {
         let indexPath = IndexPath(row: row, section: optionSection)
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath)
     }
 }
