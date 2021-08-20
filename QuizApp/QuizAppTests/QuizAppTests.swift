@@ -19,7 +19,7 @@ class QuestionViewController: UIViewController {
     let headerLabel = UILabel()
     let tableView = UITableView()
 
-    convenience init(question: String, options: [String]) {
+    convenience init(question: String, options _: [String]) {
         self.init()
         self.question = question
     }
@@ -53,9 +53,9 @@ class QuestionViewControllerTests: XCTestCase {
     func makeSUT(
         question: String,
         options: [String],
-        file: StaticString = #filePath,
-        line: UInt = #line) -> SUT
-    {
+        file _: StaticString = #filePath,
+        line _: UInt = #line
+    ) -> SUT {
         QuestionViewController(question: question, options: options)
     }
 }
