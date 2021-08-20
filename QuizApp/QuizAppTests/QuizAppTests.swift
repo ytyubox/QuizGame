@@ -23,7 +23,7 @@ class QuestionViewController: UIViewController, UITableViewDataSource {
     convenience init(question: String, options: [String]) {
         self.init()
         self.question = question
-        self.options =  options
+        self.options = options
     }
 
     override func viewDidLoad() {
@@ -32,11 +32,11 @@ class QuestionViewController: UIViewController, UITableViewDataSource {
         tableView.dataSource = self
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         options.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.textLabel?.text = options[indexPath.row]
         return cell
@@ -66,14 +66,14 @@ class QuestionViewControllerTests: XCTestCase {
 
         XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 1)
     }
-    
+
     func test_viewDidLoadWithOneOption_should_renderOneOptionText() throws {
         let sut = makeSUT(question: "Q1", options: ["A1"])
         sut.loadViewIfNeeded()
-        
+
         let indexPath = IndexPath(row: 0, section: 0)
         let cell = sut.tableView.dataSource?.tableView(sut.tableView, cellForRowAt: indexPath)
-        
+
         XCTAssertEqual(cell?.textLabel?.text, "A1")
     }
 
