@@ -55,6 +55,7 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt _: IndexPath) {
+        guard tableView.allowsMultipleSelection else { return }
         selectedOptions(in: tableView)
     }
 
@@ -82,6 +83,22 @@ class QuestionViewControllerTests: XCTestCase {
         XCTAssertEqual(makeSUT(options: ["A1"]).title(at: 0), "A1")
         XCTAssertEqual(makeSUT(options: ["A1", "A2"]).title(at: 0), "A1")
         XCTAssertEqual(makeSUT(options: ["A1", "A2"]).title(at: 1), "A2")
+    }
+
+    func test_OptionSelected_shouldNot_notifiesDelegateWithEmptySelection() throws {
+        var history: [[String]] = []
+        let sut = makeSUT(options: ["A1", "A2"]) { selected in
+            history.append(selected)
+        }
+
+        sut.select(at: 0)
+
+        XCTAssertEqual(history, [["A1"]])
+
+        sut.deselect(at: 0)
+        sut.select(at: 1)
+
+        XCTAssertEqual(history, [["A1"], ["A2"]])
     }
 
     func test_MultipleOptionSelected_notifiesDelegate() throws {
