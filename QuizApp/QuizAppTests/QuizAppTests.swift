@@ -17,38 +17,45 @@ import UIKit
 class QuestionViewController: UIViewController {
     var question: String = ""
     let headerLabel = UILabel()
-    
-    convenience init(question: String) {
+    let tableView = UITableView()
+
+    convenience init(question: String, options: [String]) {
         self.init()
         self.question = question
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         headerLabel.text = question
     }
-    
 }
-
 
 // MARK: - QuestionViewControllerTests
 
 class QuestionViewControllerTests: XCTestCase {
     func test_viewDidLoad_should_renderQuestionHeaderText() throws {
-        let sut = makeSUT(question: "Q1")
+        let sut = makeSUT(question: "Q1", options: [])
         sut.loadViewIfNeeded()
 
         XCTAssertEqual(sut.headerLabel.text, "Q1")
     }
-    
+
+    func test_viewDidLoadWithNoOptions_should_renderZeroOptions() throws {
+        let sut = makeSUT(question: "Q1", options: [])
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 0)
+    }
+
     // MARK: - Helper
 
     typealias SUT = QuestionViewController
     func makeSUT(
         question: String,
+        options: [String],
         file: StaticString = #filePath,
         line: UInt = #line) -> SUT
     {
-        QuestionViewController(question: question)
+        QuestionViewController(question: question, options: options)
     }
 }
