@@ -18,8 +18,13 @@ class QuestionViewController: UIViewController, UITableViewDataSource {
     private var question: String = ""
     private var options: [String] = []
     let headerLabel = UILabel()
-    let tableView = UITableView()
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        return tableView
+    }()
 
+    static let cellReuseIdentifier = "Cell"
     convenience init(question: String, options: [String]) {
         self.init()
         self.question = question
@@ -36,8 +41,8 @@ class QuestionViewController: UIViewController, UITableViewDataSource {
         options.count
     }
 
-    func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellReuseIdentifier, for: indexPath)
         cell.textLabel?.text = options[indexPath.row]
         return cell
     }
