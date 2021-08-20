@@ -14,9 +14,10 @@ import UIKit
 
 // MARK: - QuestionViewController
 
-class QuestionViewController: UIViewController, UITableViewDataSource {
+class QuestionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private var question: String = ""
     private var options: [String] = []
+    private var selection: ((String) -> Void)?
     let headerLabel = UILabel()
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -25,16 +26,18 @@ class QuestionViewController: UIViewController, UITableViewDataSource {
     }()
 
     static let cellReuseIdentifier = "Cell"
-    convenience init(question: String, options: [String]) {
+    convenience init(question: String, options: [String], selection: @escaping (String) -> Void) {
         self.init()
         self.question = question
         self.options = options
+        self.selection = selection
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         headerLabel.text = question
         tableView.dataSource = self
+        tableView.delegate = self
     }
 
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
@@ -45,6 +48,10 @@ class QuestionViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: Self.cellReuseIdentifier, for: indexPath)
         cell.textLabel?.text = options[indexPath.row]
         return cell
+    }
+
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selection?(options[indexPath.row])
     }
 }
 
@@ -67,16 +74,28 @@ class QuestionViewControllerTests: XCTestCase {
         XCTAssertEqual(makeSUT(options: ["A1", "A2"]).title(at: 1), "A2")
     }
 
+    func test_optionSelected_notifiesDelegate() throws {
+        var history: [String] = []
+        let sut = makeSUT(options: ["A1"]) { selected in
+            history.append(selected)
+        }
+
+        sut.select(at: 0)
+
+        XCTAssertEqual(history, ["A1"])
+    }
+
     // MARK: - Helper
 
     typealias SUT = QuestionViewController
     func makeSUT(
         question: String = "",
         options: [String] = [],
+        selection: @escaping (String) -> Void = { _ in },
         file _: StaticString = #filePath,
         line _: UInt = #line
     ) -> SUT {
-        let sut = QuestionViewController(question: question, options: options)
+        let sut = QuestionViewController(question: question, options: options, selection: selection)
         sut.loadViewIfNeeded()
         return sut
     }
@@ -84,16 +103,21 @@ class QuestionViewControllerTests: XCTestCase {
 
 extension QuestionViewController {
     var optionSection: Int { 0 }
-    func cell(at index: Int) -> UITableViewCell? {
-        let indexPath = IndexPath(row: index, section: optionSection)
+    func cell(at row: Int) -> UITableViewCell? {
+        let indexPath = IndexPath(row: row, section: optionSection)
         return tableView.dataSource?.tableView(tableView, cellForRowAt: indexPath)
     }
 
-    func title(at index: Int) -> String? {
-        cell(at: index)?.textLabel?.text
+    func title(at row: Int) -> String? {
+        cell(at: row)?.textLabel?.text
     }
 
     func numberOfCell() -> Int {
         tableView.numberOfRows(inSection: optionSection)
+    }
+
+    func select(at row: Int) {
+        let indexPath = IndexPath(row: row, section: optionSection)
+        tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath)
     }
 }
