@@ -51,6 +51,14 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt _: IndexPath) {
+        selectedOptions(in: tableView)
+    }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt _: IndexPath) {
+        selectedOptions(in: tableView)
+    }
+
+    private func selectedOptions(in tableView: UITableView) {
         let selectedIndexPath = tableView.indexPathsForSelectedRows ?? []
         let selectedOptions = selectedIndexPath.map { options[$0.row] }
         selection?(selectedOptions)
@@ -93,6 +101,23 @@ class QuestionViewControllerTests: XCTestCase {
         XCTAssertEqual(history, [["A1"], ["A1", "A2"]])
     }
 
+    func test_MultipleOptionDeselected_notifiesDelegate() throws {
+        var history: [[String]] = []
+        let sut = makeSUT(options: ["A1", "A2"]) { selected in
+            history.append(selected)
+        }
+
+        sut.tableView.allowsMultipleSelection = true
+
+        sut.select(at: 0)
+        sut.select(at: 1)
+
+        sut.deselect(at: 0)
+        XCTAssertEqual(history, [["A1"], ["A1", "A2"], ["A2"]])
+        sut.deselect(at: 1)
+        XCTAssertEqual(history, [["A1"], ["A1", "A2"], ["A2"], []])
+    }
+
     // MARK: - Helper
 
     typealias SUT = QuestionViewController
@@ -128,5 +153,11 @@ extension QuestionViewController {
         let indexPath = IndexPath(row: row, section: optionSection)
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath)
+    }
+
+    func deselect(at row: Int) {
+        let indexPath = IndexPath(row: row, section: optionSection)
+        tableView.deselectRow(at: indexPath, animated: false)
+        tableView.delegate?.tableView?(tableView, didDeselectRowAt: indexPath)
     }
 }
