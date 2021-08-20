@@ -14,19 +14,30 @@ import UIKit
 
 // MARK: - QuestionViewController
 
-class QuestionViewController: UIViewController {
-    var question: String = ""
+class QuestionViewController: UIViewController, UITableViewDataSource {
+    private var question: String = ""
+    private var options: [String] = []
     let headerLabel = UILabel()
     let tableView = UITableView()
 
-    convenience init(question: String, options _: [String]) {
+    convenience init(question: String, options: [String]) {
         self.init()
         self.question = question
+        self.options =  options
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         headerLabel.text = question
+        tableView.dataSource = self
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        options.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        UITableViewCell()
     }
 }
 
@@ -45,6 +56,13 @@ class QuestionViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
 
         XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 0)
+    }
+
+    func test_viewDidLoadWithOneOption_should_renderOneOption() throws {
+        let sut = makeSUT(question: "Q1", options: ["A1"])
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 1)
     }
 
     // MARK: - Helper
