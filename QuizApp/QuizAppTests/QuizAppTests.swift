@@ -48,28 +48,24 @@ class QuestionViewController: UIViewController, UITableViewDataSource {
 class QuestionViewControllerTests: XCTestCase {
     func test_viewDidLoad_should_renderQuestionHeaderText() throws {
         let sut = makeSUT(question: "Q1", options: [])
-        sut.loadViewIfNeeded()
 
         XCTAssertEqual(sut.headerLabel.text, "Q1")
     }
 
     func test_viewDidLoadWithNoOptions_should_renderZeroOptions() throws {
         let sut = makeSUT(question: "Q1", options: [])
-        sut.loadViewIfNeeded()
 
         XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 0)
     }
 
     func test_viewDidLoadWithOneOption_should_renderOneOption() throws {
         let sut = makeSUT(question: "Q1", options: ["A1"])
-        sut.loadViewIfNeeded()
 
         XCTAssertEqual(sut.tableView.numberOfRows(inSection: 0), 1)
     }
 
     func test_viewDidLoadWithOneOption_should_renderOneOptionText() throws {
         let sut = makeSUT(question: "Q1", options: ["A1"])
-        sut.loadViewIfNeeded()
 
         let indexPath = IndexPath(row: 0, section: 0)
         let cell = sut.tableView.dataSource?.tableView(sut.tableView, cellForRowAt: indexPath)
@@ -86,6 +82,8 @@ class QuestionViewControllerTests: XCTestCase {
         file _: StaticString = #filePath,
         line _: UInt = #line
     ) -> SUT {
-        QuestionViewController(question: question, options: options)
+        let sut = QuestionViewController(question: question, options: options)
+        sut.loadViewIfNeeded()
+        return sut
     }
 }
