@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D2D38D9F26CB9BC3008759F3"
-               BuildableName = "QuizeEngine.framework"
-               BlueprintName = "QuizeEngine"
-               ReferencedContainer = "container:QuizeEngine.xcodeproj">
+               BuildableName = "QuizEngine.framework"
+               BlueprintName = "QuizEngine"
+               ReferencedContainer = "container:QuizEngine.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,9 +35,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D2D38DA826CB9BC3008759F3"
-               BuildableName = "QuizeEngineTests.xctest"
-               BlueprintName = "QuizeEngineTests"
-               ReferencedContainer = "container:QuizeEngine.xcodeproj">
+               BuildableName = "QuizEngineTests.xctest"
+               BlueprintName = "QuizEngineTests"
+               ReferencedContainer = "container:QuizEngine.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -63,9 +63,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D2D38D9F26CB9BC3008759F3"
-            BuildableName = "QuizeEngine.framework"
-            BlueprintName = "QuizeEngine"
-            ReferencedContainer = "container:QuizeEngine.xcodeproj">
+            BuildableName = "QuizEngine.framework"
+            BlueprintName = "QuizEngine"
+            ReferencedContainer = "container:QuizEngine.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
