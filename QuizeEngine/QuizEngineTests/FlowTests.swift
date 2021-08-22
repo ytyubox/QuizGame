@@ -1,6 +1,5 @@
-import XCTest
 import QuizEngine
-
+import XCTest
 
 final class FlowTests: XCTestCase {
     // MARK: - Route to Next Question
@@ -47,6 +46,7 @@ final class FlowTests: XCTestCase {
 
         XCTAssertEqual(router.routedQuestions, ["Q1", "Q2"])
     }
+
     func test_startAndAnswerFirstQuestionWithTwoQuestion_ShouldNot_RouteToResult() throws {
         let (sut, router) = makeSUT(questions: ["Q1", "Q2"])
 
@@ -55,7 +55,6 @@ final class FlowTests: XCTestCase {
         router.simulateAnswer("A1")
 
         XCTAssertEqual(router.routedResults, [])
-        
     }
 
     func test_startAndAnswerFirstAndSecondQuestionWithThreeQuestion_Should_RouteToThirdQuestion() throws {
@@ -97,7 +96,7 @@ final class FlowTests: XCTestCase {
         router.simulateAnswer("A1")
 
         XCTAssertEqual(router.routedResults, [
-            makeResult(("Q1", "A1"))
+            makeResult(("Q1", "A1")),
         ])
     }
 
@@ -110,7 +109,7 @@ final class FlowTests: XCTestCase {
         router.simulateAnswer("A2")
 
         XCTAssertEqual(router.routedResults, [
-            makeResult(("Q1", "A1"), ("Q2", "A2"))
+            makeResult(("Q1", "A1"), ("Q2", "A2")),
         ])
     }
 
