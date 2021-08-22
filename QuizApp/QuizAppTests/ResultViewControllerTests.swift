@@ -14,7 +14,8 @@ import UIKit
 struct PresentableAnswer {
     let question: String
     let answer: String
-    let isCorrect: Bool
+    let wrongAnswer: String?
+    var isCorrect: Bool { wrongAnswer == nil }
 }
 
 // MARK: - CorrectAnswerCell
@@ -29,6 +30,7 @@ class CorrectAnswerCell: UITableViewCell {
 class WrongAnswerCell: UITableViewCell {
     let questionLabel = UILabel()
     let correctAnswerLabel = UILabel()
+    let wrongAnswerLabel = UILabel()
 }
 
 // MARK: - ResultViewController
@@ -65,6 +67,7 @@ class ResultViewController: UIViewController, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "WrongAnswerCell", for: indexPath) as! WrongAnswerCell
             cell.questionLabel.text = answer.question
             cell.correctAnswerLabel.text = answer.answer
+            cell.wrongAnswerLabel.text = answer.wrongAnswer
             return cell
         }
     }
@@ -96,7 +99,7 @@ final class ResultViewControllerTests: XCTestCase {
     }
 
     func test_viewDidLoadWithCorrectAnswer_should_ConfigCorrectAnswerCell() throws {
-        let answer = makeAnswer(question: "Q1", answer: "A1", isCorrect: true)
+        let answer = makeAnswer(question: "Q1", answer: "A1")
         let cell = try XCTUnwrap(makeSUT(answers: [answer]).cell(at: 0) as? CorrectAnswerCell)
 
         XCTAssertEqual(cell.questionLabel.text, "Q1")
@@ -104,11 +107,12 @@ final class ResultViewControllerTests: XCTestCase {
     }
 
     func test_viewDidLoadWithWrongAnswer_should_ConfigWrongAnswerCell() throws {
-        let answer = makeAnswer(question: "Q1", answer: "A1", isCorrect: false)
+        let answer = makeAnswer(question: "Q1", answer: "A1", wrongAnswer: "wrong")
         let cell = try XCTUnwrap(makeSUT(answers: [answer]).cell(at: 0) as? WrongAnswerCell)
 
         XCTAssertEqual(cell.questionLabel.text, "Q1")
         XCTAssertEqual(cell.correctAnswerLabel.text, "A1")
+        XCTAssertEqual(cell.wrongAnswerLabel.text, "wrong")
     }
 
     // MARK: - Helper
@@ -125,8 +129,8 @@ final class ResultViewControllerTests: XCTestCase {
         return sut
     }
 
-    func makeAnswer(question: String = "", answer: String = "", isCorrect: Bool = true) -> PresentableAnswer {
-        PresentableAnswer(question: question, answer: answer, isCorrect: isCorrect)
+    func makeAnswer(question: String = "", answer: String = "", wrongAnswer: String? = nil) -> PresentableAnswer {
+        PresentableAnswer(question: question, answer: answer, wrongAnswer: wrongAnswer)
     }
 }
 
