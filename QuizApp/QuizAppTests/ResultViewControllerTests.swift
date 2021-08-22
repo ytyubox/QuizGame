@@ -9,12 +9,18 @@
 
 import UIKit
 
+struct PresentableAnswer {
+    let isCorrect: Bool
+}
+
+class CorrectAnswerCell: UITableViewCell {}
+
 // MARK: - ResultViewController
 
 class ResultViewController: UIViewController, UITableViewDataSource {
     private var summary = ""
-    private var answers: [String] = []
-    convenience init(summary: String, answers: [String]) {
+    private var answers: [PresentableAnswer] = []
+    convenience init(summary: String, answers: [PresentableAnswer]) {
         self.init()
         self.summary = summary
         self.answers = answers
@@ -34,7 +40,7 @@ class ResultViewController: UIViewController, UITableViewDataSource {
     }
 
     func tableView(_: UITableView, cellForRowAt _: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        CorrectAnswerCell()
     }
 }
 
@@ -56,12 +62,17 @@ final class ResultViewControllerTests: XCTestCase {
                        2)
     }
 
+    func test_viewDidLoadWithCorrectAnswer_should_RenderCorrectAnswerCell() throws {
+        XCTAssertTrue(makeSUT(answers: [PresentableAnswer(isCorrect: true)])
+            .cell(at: 0) is CorrectAnswerCell)
+    }
+
     // MARK: - Helper
 
     typealias SUT = ResultViewController
     func makeSUT(
         summary: String = "",
-        answers: [String] = [],
+        answers: [PresentableAnswer] = [],
         file _: StaticString = #filePath,
         line _: UInt = #line
     ) -> SUT {
@@ -70,8 +81,8 @@ final class ResultViewControllerTests: XCTestCase {
         return sut
     }
 
-    func makeAnswer() -> String {
-        "an answer"
+    func makeAnswer() -> PresentableAnswer {
+        PresentableAnswer(isCorrect: true)
     }
 }
 
