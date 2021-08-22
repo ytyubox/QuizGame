@@ -9,6 +9,8 @@
 
 import UIKit
 
+// MARK: - ResultViewController
+
 class ResultViewController: UIViewController, UITableViewDataSource {
     private var summary = ""
     private var answers: [String] = []
@@ -38,6 +40,8 @@ class ResultViewController: UIViewController, UITableViewDataSource {
 
 import XCTest
 
+// MARK: - ResultViewControllerTests
+
 final class ResultViewControllerTests: XCTestCase {
     func test_viewDidLoad_should_renderSummary() throws {
         let sut = makeSUT(summary: "a summary")
@@ -47,8 +51,9 @@ final class ResultViewControllerTests: XCTestCase {
 
     func test_viewDidLoadWithAnswers_should_RenderAnswers() throws {
         XCTAssertEqual(makeSUT(answers: []).numberOfCell(), 0)
-        XCTAssertEqual(makeSUT(answers: ["A1"]).numberOfCell(), 1)
-        XCTAssertEqual(makeSUT(answers: ["A1", "A2"]).numberOfCell(), 2)
+        XCTAssertEqual(makeSUT(answers: [makeAnswer()]).numberOfCell(), 1)
+        XCTAssertEqual(makeSUT(answers: [makeAnswer(), makeAnswer()]).numberOfCell(),
+                       2)
     }
 
     // MARK: - Helper
@@ -64,6 +69,12 @@ final class ResultViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
         return sut
     }
+
+    func makeAnswer() -> String {
+        "an answer"
+    }
 }
+
+// MARK: - ResultViewController + TestableTableView
 
 extension ResultViewController: TestableTableView {}
