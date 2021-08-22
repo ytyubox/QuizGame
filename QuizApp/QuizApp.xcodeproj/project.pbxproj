@@ -15,6 +15,7 @@
 		D2C6334926D233F7001370E5 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C6334826D233F7001370E5 /* QuestionViewController.swift */; };
 		D2C6334B26D2342F001370E5 /* ResultViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C6334A26D2342F001370E5 /* ResultViewControllerTests.swift */; };
 		D2C6334E26D236A0001370E5 /* TestableTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C6334D26D236A0001370E5 /* TestableTableView.swift */; };
+		D2C6335026D24FF0001370E5 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C6334F26D24FF0001370E5 /* UITableViewExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		D2C6334826D233F7001370E5 /* QuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 		D2C6334A26D2342F001370E5 /* ResultViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewControllerTests.swift; sourceTree = "<group>"; };
 		D2C6334D26D236A0001370E5 /* TestableTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestableTableView.swift; sourceTree = "<group>"; };
+		D2C6334F26D24FF0001370E5 /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				D267411B26CFDA5800E71809 /* Info.plist */,
 				D267411826CFDA5800E71809 /* LaunchScreen.storyboard */,
 				D267410F26CFDA5700E71809 /* SceneDelegate.swift */,
+				D2C6334F26D24FF0001370E5 /* UITableViewExtension.swift */,
 			);
 			path = QuizApp;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				D267410E26CFDA5700E71809 /* AppDelegate.swift in Sources */,
 				D2C6334926D233F7001370E5 /* QuestionViewController.swift in Sources */,
 				D267411026CFDA5700E71809 /* SceneDelegate.swift in Sources */,
+				D2C6335026D24FF0001370E5 /* UITableViewExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
  *		Running on macOS 12.0
  */
 
+@testable import QuizApp
 import UIKit
 
 // MARK: - PresentableAnswer
@@ -51,8 +52,8 @@ class ResultViewController: UIViewController, UITableViewDataSource {
         super.viewDidLoad()
         headerLabel.text = summary
         tableView.dataSource = self
-        tableView.register(CorrectAnswerCell.self, forCellReuseIdentifier: "CorrectAnswerCell")
-        tableView.register(WrongAnswerCell.self, forCellReuseIdentifier: "WrongAnswerCell")
+        tableView.register(CorrectAnswerCell.self)
+        tableView.register(WrongAnswerCell.self)
     }
 
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
@@ -64,18 +65,22 @@ class ResultViewController: UIViewController, UITableViewDataSource {
         if answer.isCorrect {
             return correctCell(for: answer, indexPath: indexPath)
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "WrongAnswerCell", for: indexPath) as! WrongAnswerCell
-            cell.questionLabel.text = answer.question
-            cell.correctAnswerLabel.text = answer.answer
-            cell.wrongAnswerLabel.text = answer.wrongAnswer
-            return cell
+            return wrongAnswerCell(for: answer, indexPath: indexPath)
         }
     }
 
     private func correctCell(for answer: PresentableAnswer, indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CorrectAnswerCell", for: indexPath) as! CorrectAnswerCell
+        let cell = tableView.dequeueReusableCell(CorrectAnswerCell.self, for: indexPath)
         cell.questionLabel.text = answer.question
         cell.answerLabel.text = answer.answer
+        return cell
+    }
+
+    private func wrongAnswerCell(for answer: PresentableAnswer, indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(WrongAnswerCell.self, for: indexPath)
+        cell.questionLabel.text = answer.question
+        cell.correctAnswerLabel.text = answer.answer
+        cell.wrongAnswerLabel.text = answer.wrongAnswer
         return cell
     }
 }
