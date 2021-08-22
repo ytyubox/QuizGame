@@ -9,16 +9,22 @@
 
 import UIKit
 
+// MARK: - PresentableAnswer
+
 struct PresentableAnswer {
     let question: String
     let answer: String
     let isCorrect: Bool
 }
 
+// MARK: - CorrectAnswerCell
+
 class CorrectAnswerCell: UITableViewCell {
     let questionLabel = UILabel()
     let answerLabel = UILabel()
 }
+
+// MARK: - WrongAnswerCell
 
 class WrongAnswerCell: UITableViewCell {}
 
@@ -47,16 +53,20 @@ class ResultViewController: UIViewController, UITableViewDataSource {
         answers.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let answer = answers[indexPath.row]
         if answer.isCorrect {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CorrectCell", for: indexPath) as! CorrectAnswerCell
-            cell.questionLabel.text = answer.question
-            cell.answerLabel.text = answer.answer
-            return cell
+            return correctCell(for: answer, indexPath: indexPath)
         } else {
             return WrongAnswerCell()
         }
+    }
+
+    private func correctCell(for answer: PresentableAnswer, indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CorrectCell", for: indexPath) as! CorrectAnswerCell
+        cell.questionLabel.text = answer.question
+        cell.answerLabel.text = answer.answer
+        return cell
     }
 }
 
