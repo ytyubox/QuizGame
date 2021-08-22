@@ -17,6 +17,7 @@ class ResultViewController: UIViewController {
     }
 
     let headerLabel = UILabel()
+    let tableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +34,18 @@ final class ResultViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.headerLabel.text, "a summary")
     }
 
+    func test_viewDidLoadWithoutAnswers_shouldNot_renderAnswers() throws {
+        let sut = makeSUT(answers: [])
+
+        XCTAssertEqual(sut.numberOfCell(), 0)
+    }
+
     // MARK: - Helper
 
     typealias SUT = ResultViewController
     func makeSUT(
-        summary: String,
+        summary: String = "",
+        answers _: [String] = [],
         file _: StaticString = #filePath,
         line _: UInt = #line
     ) -> SUT {
@@ -46,3 +54,5 @@ final class ResultViewControllerTests: XCTestCase {
         return sut
     }
 }
+
+extension ResultViewController: TestableTableView {}

@@ -95,30 +95,4 @@ class QuestionViewControllerTests: XCTestCase {
     }
 }
 
-extension QuestionViewController {
-    var optionSection: Int { 0 }
-    func cell(at row: Int) -> UITableViewCell? {
-        let indexPath = IndexPath(row: row, section: optionSection)
-        return tableView.dataSource?.tableView(tableView, cellForRowAt: indexPath)
-    }
-
-    func title(at row: Int) -> String? {
-        cell(at: row)?.textLabel?.text
-    }
-
-    func numberOfCell() -> Int {
-        tableView.numberOfRows(inSection: optionSection)
-    }
-
-    func select(at row: Int) {
-        let indexPath = IndexPath(row: row, section: optionSection)
-        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        tableView.delegate?.tableView?(tableView, didSelectRowAt: indexPath)
-    }
-
-    func deselect(at row: Int) {
-        let indexPath = IndexPath(row: row, section: optionSection)
-        tableView.deselectRow(at: indexPath, animated: false)
-        tableView.delegate?.tableView?(tableView, didDeselectRowAt: indexPath)
-    }
-}
+extension QuestionViewController: TestableTableView {}

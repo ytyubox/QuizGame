@@ -14,6 +14,7 @@
 		D267412526CFDA5800E71809 /* QuizAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D267412426CFDA5800E71809 /* QuizAppTests.swift */; };
 		D2C6334926D233F7001370E5 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C6334826D233F7001370E5 /* QuestionViewController.swift */; };
 		D2C6334B26D2342F001370E5 /* ResultViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C6334A26D2342F001370E5 /* ResultViewControllerTests.swift */; };
+		D2C6334E26D236A0001370E5 /* TestableTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C6334D26D236A0001370E5 /* TestableTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		D267412626CFDA5800E71809 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2C6334826D233F7001370E5 /* QuestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 		D2C6334A26D2342F001370E5 /* ResultViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewControllerTests.swift; sourceTree = "<group>"; };
+		D2C6334D26D236A0001370E5 /* TestableTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestableTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 		D267412326CFDA5800E71809 /* QuizAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				D2C6334C26D23695001370E5 /* TestHelper */,
 				D267412626CFDA5800E71809 /* Info.plist */,
 				D267412426CFDA5800E71809 /* QuizAppTests.swift */,
 				D2C6334A26D2342F001370E5 /* ResultViewControllerTests.swift */,
@@ -105,6 +108,14 @@
 				D2C6334826D233F7001370E5 /* QuestionViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		D2C6334C26D23695001370E5 /* TestHelper */ = {
+			isa = PBXGroup;
+			children = (
+				D2C6334D26D236A0001370E5 /* TestableTableView.swift */,
+			);
+			path = TestHelper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +229,7 @@
 			files = (
 				D267412526CFDA5800E71809 /* QuizAppTests.swift in Sources */,
 				D2C6334B26D2342F001370E5 /* ResultViewControllerTests.swift in Sources */,
+				D2C6334E26D236A0001370E5 /* TestableTableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
