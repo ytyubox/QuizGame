@@ -9,11 +9,13 @@
 
 import UIKit
 
-class ResultViewController: UIViewController {
+class ResultViewController: UIViewController, UITableViewDataSource {
     private var summary = ""
-    convenience init(summary: String) {
+    private var answers: [String] = []
+    convenience init(summary: String, answers: [String]) {
         self.init()
         self.summary = summary
+        self.answers = answers
     }
 
     let headerLabel = UILabel()
@@ -22,6 +24,15 @@ class ResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         headerLabel.text = summary
+        tableView.dataSource = self
+    }
+
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+        answers.count
+    }
+
+    func tableView(_: UITableView, cellForRowAt _: IndexPath) -> UITableViewCell {
+        UITableViewCell()
     }
 }
 
@@ -34,10 +45,10 @@ final class ResultViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.headerLabel.text, "a summary")
     }
 
-    func test_viewDidLoadWithoutAnswers_shouldNot_renderAnswers() throws {
-        let sut = makeSUT(answers: [])
-
-        XCTAssertEqual(sut.numberOfCell(), 0)
+    func test_viewDidLoadWithAnswers_should_RenderAnswers() throws {
+        XCTAssertEqual(makeSUT(answers: []).numberOfCell(), 0)
+        XCTAssertEqual(makeSUT(answers: ["A1"]).numberOfCell(), 1)
+        XCTAssertEqual(makeSUT(answers: ["A1", "A2"]).numberOfCell(), 2)
     }
 
     // MARK: - Helper
@@ -45,11 +56,11 @@ final class ResultViewControllerTests: XCTestCase {
     typealias SUT = ResultViewController
     func makeSUT(
         summary: String = "",
-        answers _: [String] = [],
+        answers: [String] = [],
         file _: StaticString = #filePath,
         line _: UInt = #line
     ) -> SUT {
-        let sut = ResultViewController(summary: summary)
+        let sut = ResultViewController(summary: summary, answers: answers)
         sut.loadViewIfNeeded()
         return sut
     }
