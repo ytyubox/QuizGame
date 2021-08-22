@@ -10,10 +10,14 @@
 import UIKit
 
 struct PresentableAnswer {
+    let question: String
     let isCorrect: Bool
 }
 
-class CorrectAnswerCell: UITableViewCell {}
+class CorrectAnswerCell: UITableViewCell {
+    let questionLabel = UILabel()
+}
+
 class WrongAnswerCell: UITableViewCell {}
 
 // MARK: - ResultViewController
@@ -34,16 +38,22 @@ class ResultViewController: UIViewController, UITableViewDataSource {
         super.viewDidLoad()
         headerLabel.text = summary
         tableView.dataSource = self
+        tableView.register(CorrectAnswerCell.self, forCellReuseIdentifier: "CorrectCell")
     }
 
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         answers.count
     }
 
-    func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        answers[indexPath.row].isCorrect
-            ? CorrectAnswerCell()
-            : WrongAnswerCell()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let answer = answers[indexPath.row]
+        if answer.isCorrect {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CorrectCell", for: indexPath) as! CorrectAnswerCell
+            cell.questionLabel.text = answer.question
+            return cell
+        } else {
+            return WrongAnswerCell()
+        }
     }
 }
 
@@ -65,13 +75,15 @@ final class ResultViewControllerTests: XCTestCase {
                        2)
     }
 
-    func test_viewDidLoadWithCorrectAnswer_should_RenderCorrectAnswerCell() throws {
-        XCTAssertTrue(makeSUT(answers: [PresentableAnswer(isCorrect: true)])
-            .cell(at: 0) is CorrectAnswerCell)
+    func test_viewDidLoadWithCorrectAnswer_should_RenderQuestionText() throws {
+        let cell = try XCTUnwrap(makeSUT(answers: [makeAnswer(question: "Q1", isCorrect: true)])
+            .cell(at: 0) as? CorrectAnswerCell)
+
+        XCTAssertEqual(cell.questionLabel.text, "Q1")
     }
 
     func test_viewDidLoadWithWrongAnswer_should_RenderWrongAnswerCell() throws {
-        XCTAssertTrue(makeSUT(answers: [PresentableAnswer(isCorrect: false)])
+        XCTAssertTrue(makeSUT(answers: [makeAnswer(isCorrect: false)])
             .cell(at: 0) is WrongAnswerCell)
     }
 
@@ -89,8 +101,8 @@ final class ResultViewControllerTests: XCTestCase {
         return sut
     }
 
-    func makeAnswer() -> PresentableAnswer {
-        PresentableAnswer(isCorrect: true)
+    func makeAnswer(question: String = "", isCorrect: Bool = true) -> PresentableAnswer {
+        PresentableAnswer(question: question, isCorrect: isCorrect)
     }
 }
 
