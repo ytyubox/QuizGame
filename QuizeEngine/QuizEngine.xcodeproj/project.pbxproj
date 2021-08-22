@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D2D38DAA26CB9BC3008759F3 /* QuizeEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D38DA026CB9BC3008759F3 /* QuizeEngine.framework */; };
+		D267414726CFDBC300E71809 /* Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D267414626CFDBC300E71809 /* Flow.swift */; };
+		D267414926CFDBE900E71809 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = D267414826CFDBE900E71809 /* Router.swift */; };
+		D267414B26CFDC0000E71809 /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = D267414A26CFDC0000E71809 /* Quiz.swift */; };
+		D2D2E96B26CE1477000626F2 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D2E96A26CE1477000626F2 /* XCTestCase+MemoryLeakTracking.swift */; };
+		D2D38DAA26CB9BC3008759F3 /* QuizEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2D38DA026CB9BC3008759F3 /* QuizEngine.framework */; };
+		D2D38DBB26CBA4D7008759F3 /* FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D38DBA26CBA4D7008759F3 /* FlowTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -21,10 +26,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D2D38DA026CB9BC3008759F3 /* QuizeEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QuizeEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D267414626CFDBC300E71809 /* Flow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flow.swift; sourceTree = "<group>"; };
+		D267414826CFDBE900E71809 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		D267414A26CFDC0000E71809 /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
+		D2D2E96A26CE1477000626F2 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
+		D2D38DA026CB9BC3008759F3 /* QuizEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QuizEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2D38DA426CB9BC3008759F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D2D38DA926CB9BC3008759F3 /* QuizeEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuizeEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2D38DA926CB9BC3008759F3 /* QuizEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuizEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2D38DB026CB9BC3008759F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2D38DBA26CBA4D7008759F3 /* FlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2D38DAA26CB9BC3008759F3 /* QuizeEngine.framework in Frameworks */,
+				D2D38DAA26CB9BC3008759F3 /* QuizEngine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,8 +59,8 @@
 		D2D38D9626CB9BC3008759F3 = {
 			isa = PBXGroup;
 			children = (
-				D2D38DA226CB9BC3008759F3 /* QuizeEngine */,
-				D2D38DAD26CB9BC3008759F3 /* QuizeEngineTests */,
+				D2D38DA226CB9BC3008759F3 /* QuizEngine */,
+				D2D38DAD26CB9BC3008759F3 /* QuizEngineTests */,
 				D2D38DA126CB9BC3008759F3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,26 +68,31 @@
 		D2D38DA126CB9BC3008759F3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2D38DA026CB9BC3008759F3 /* QuizeEngine.framework */,
-				D2D38DA926CB9BC3008759F3 /* QuizeEngineTests.xctest */,
+				D2D38DA026CB9BC3008759F3 /* QuizEngine.framework */,
+				D2D38DA926CB9BC3008759F3 /* QuizEngineTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D2D38DA226CB9BC3008759F3 /* QuizeEngine */ = {
+		D2D38DA226CB9BC3008759F3 /* QuizEngine */ = {
 			isa = PBXGroup;
 			children = (
 				D2D38DA426CB9BC3008759F3 /* Info.plist */,
+				D267414626CFDBC300E71809 /* Flow.swift */,
+				D267414826CFDBE900E71809 /* Router.swift */,
+				D267414A26CFDC0000E71809 /* Quiz.swift */,
 			);
-			path = QuizeEngine;
+			path = QuizEngine;
 			sourceTree = "<group>";
 		};
-		D2D38DAD26CB9BC3008759F3 /* QuizeEngineTests */ = {
+		D2D38DAD26CB9BC3008759F3 /* QuizEngineTests */ = {
 			isa = PBXGroup;
 			children = (
 				D2D38DB026CB9BC3008759F3 /* Info.plist */,
+				D2D2E96A26CE1477000626F2 /* XCTestCase+MemoryLeakTracking.swift */,
+				D2D38DBA26CBA4D7008759F3 /* FlowTests.swift */,
 			);
-			path = QuizeEngineTests;
+			path = QuizEngineTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -93,9 +108,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D2D38D9F26CB9BC3008759F3 /* QuizeEngine */ = {
+		D2D38D9F26CB9BC3008759F3 /* QuizEngine */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D2D38DB426CB9BC3008759F3 /* Build configuration list for PBXNativeTarget "QuizeEngine" */;
+			buildConfigurationList = D2D38DB426CB9BC3008759F3 /* Build configuration list for PBXNativeTarget "QuizEngine" */;
 			buildPhases = (
 				D2D38D9B26CB9BC3008759F3 /* Headers */,
 				D2D38D9C26CB9BC3008759F3 /* Sources */,
@@ -106,14 +121,14 @@
 			);
 			dependencies = (
 			);
-			name = QuizeEngine;
+			name = QuizEngine;
 			productName = QuizeEngine;
-			productReference = D2D38DA026CB9BC3008759F3 /* QuizeEngine.framework */;
+			productReference = D2D38DA026CB9BC3008759F3 /* QuizEngine.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		D2D38DA826CB9BC3008759F3 /* QuizeEngineTests */ = {
+		D2D38DA826CB9BC3008759F3 /* QuizEngineTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D2D38DB726CB9BC3008759F3 /* Build configuration list for PBXNativeTarget "QuizeEngineTests" */;
+			buildConfigurationList = D2D38DB726CB9BC3008759F3 /* Build configuration list for PBXNativeTarget "QuizEngineTests" */;
 			buildPhases = (
 				D2D38DA526CB9BC3008759F3 /* Sources */,
 				D2D38DA626CB9BC3008759F3 /* Frameworks */,
@@ -124,9 +139,9 @@
 			dependencies = (
 				D2D38DAC26CB9BC3008759F3 /* PBXTargetDependency */,
 			);
-			name = QuizeEngineTests;
+			name = QuizEngineTests;
 			productName = QuizeEngineTests;
-			productReference = D2D38DA926CB9BC3008759F3 /* QuizeEngineTests.xctest */;
+			productReference = D2D38DA926CB9BC3008759F3 /* QuizEngineTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -140,13 +155,15 @@
 				TargetAttributes = {
 					D2D38D9F26CB9BC3008759F3 = {
 						CreatedOnToolsVersion = 12.5;
+						LastSwiftMigration = 1250;
 					};
 					D2D38DA826CB9BC3008759F3 = {
 						CreatedOnToolsVersion = 12.5;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
-			buildConfigurationList = D2D38D9A26CB9BC3008759F3 /* Build configuration list for PBXProject "QuizeEngine" */;
+			buildConfigurationList = D2D38D9A26CB9BC3008759F3 /* Build configuration list for PBXProject "QuizEngine" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -159,8 +176,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D2D38D9F26CB9BC3008759F3 /* QuizeEngine */,
-				D2D38DA826CB9BC3008759F3 /* QuizeEngineTests */,
+				D2D38D9F26CB9BC3008759F3 /* QuizEngine */,
+				D2D38DA826CB9BC3008759F3 /* QuizEngineTests */,
 			);
 		};
 /* End PBXProject section */
@@ -187,6 +204,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D267414926CFDBE900E71809 /* Router.swift in Sources */,
+				D267414726CFDBC300E71809 /* Flow.swift in Sources */,
+				D267414B26CFDC0000E71809 /* Quiz.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +214,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2D38DBB26CBA4D7008759F3 /* FlowTests.swift in Sources */,
+				D2D2E96B26CE1477000626F2 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,7 +224,7 @@
 /* Begin PBXTargetDependency section */
 		D2D38DAC26CB9BC3008759F3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D2D38D9F26CB9BC3008759F3 /* QuizeEngine */;
+			target = D2D38D9F26CB9BC3008759F3 /* QuizEngine */;
 			targetProxy = D2D38DAB26CB9BC3008759F3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -332,22 +354,24 @@
 		D2D38DB526CB9BC3008759F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = QuizeEngine/Info.plist;
+				INFOPLIST_FILE = QuizEngine/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.inkinyu.QuizeEngine;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inkinyu.QuizEngine;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -355,20 +379,21 @@
 		D2D38DB626CB9BC3008759F3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = QuizeEngine/Info.plist;
+				INFOPLIST_FILE = QuizEngine/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.inkinyu.QuizeEngine;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inkinyu.QuizEngine;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -378,9 +403,11 @@
 		D2D38DB826CB9BC3008759F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = QuizeEngineTests/Info.plist;
+				INFOPLIST_FILE = QuizEngineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -388,6 +415,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.inkinyu.QuizeEngineTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -395,9 +423,11 @@
 		D2D38DB926CB9BC3008759F3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = QuizeEngineTests/Info.plist;
+				INFOPLIST_FILE = QuizEngineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -412,7 +442,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D2D38D9A26CB9BC3008759F3 /* Build configuration list for PBXProject "QuizeEngine" */ = {
+		D2D38D9A26CB9BC3008759F3 /* Build configuration list for PBXProject "QuizEngine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D2D38DB226CB9BC3008759F3 /* Debug */,
@@ -421,7 +451,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D2D38DB426CB9BC3008759F3 /* Build configuration list for PBXNativeTarget "QuizeEngine" */ = {
+		D2D38DB426CB9BC3008759F3 /* Build configuration list for PBXNativeTarget "QuizEngine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D2D38DB526CB9BC3008759F3 /* Debug */,
@@ -430,7 +460,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D2D38DB726CB9BC3008759F3 /* Build configuration list for PBXNativeTarget "QuizeEngineTests" */ = {
+		D2D38DB726CB9BC3008759F3 /* Build configuration list for PBXNativeTarget "QuizEngineTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D2D38DB826CB9BC3008759F3 /* Debug */,
