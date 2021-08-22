@@ -26,7 +26,10 @@ class CorrectAnswerCell: UITableViewCell {
 
 // MARK: - WrongAnswerCell
 
-class WrongAnswerCell: UITableViewCell {}
+class WrongAnswerCell: UITableViewCell {
+    let questionLabel = UILabel()
+    let correctAnswerLabel = UILabel()
+}
 
 // MARK: - ResultViewController
 
@@ -46,7 +49,8 @@ class ResultViewController: UIViewController, UITableViewDataSource {
         super.viewDidLoad()
         headerLabel.text = summary
         tableView.dataSource = self
-        tableView.register(CorrectAnswerCell.self, forCellReuseIdentifier: "CorrectCell")
+        tableView.register(CorrectAnswerCell.self, forCellReuseIdentifier: "CorrectAnswerCell")
+        tableView.register(WrongAnswerCell.self, forCellReuseIdentifier: "WrongAnswerCell")
     }
 
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
@@ -58,12 +62,15 @@ class ResultViewController: UIViewController, UITableViewDataSource {
         if answer.isCorrect {
             return correctCell(for: answer, indexPath: indexPath)
         } else {
-            return WrongAnswerCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: "WrongAnswerCell", for: indexPath) as! WrongAnswerCell
+            cell.questionLabel.text = answer.question
+            cell.correctAnswerLabel.text = answer.answer
+            return cell
         }
     }
 
     private func correctCell(for answer: PresentableAnswer, indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CorrectCell", for: indexPath) as! CorrectAnswerCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CorrectAnswerCell", for: indexPath) as! CorrectAnswerCell
         cell.questionLabel.text = answer.question
         cell.answerLabel.text = answer.answer
         return cell
@@ -88,7 +95,7 @@ final class ResultViewControllerTests: XCTestCase {
                        2)
     }
 
-    func test_viewDidLoadWithCorrectAnswer_should_ConfigCorrectCell() throws {
+    func test_viewDidLoadWithCorrectAnswer_should_ConfigCorrectAnswerCell() throws {
         let answer = makeAnswer(question: "Q1", answer: "A1", isCorrect: true)
         let cell = try XCTUnwrap(makeSUT(answers: [answer]).cell(at: 0) as? CorrectAnswerCell)
 
@@ -96,9 +103,12 @@ final class ResultViewControllerTests: XCTestCase {
         XCTAssertEqual(cell.answerLabel.text, "A1")
     }
 
-    func test_viewDidLoadWithWrongAnswer_should_RenderWrongAnswerCell() throws {
-        XCTAssertTrue(makeSUT(answers: [makeAnswer(isCorrect: false)])
-            .cell(at: 0) is WrongAnswerCell)
+    func test_viewDidLoadWithWrongAnswer_should_ConfigWrongAnswerCell() throws {
+        let answer = makeAnswer(question: "Q1", answer: "A1", isCorrect: false)
+        let cell = try XCTUnwrap(makeSUT(answers: [answer]).cell(at: 0) as? WrongAnswerCell)
+
+        XCTAssertEqual(cell.questionLabel.text, "Q1")
+        XCTAssertEqual(cell.correctAnswerLabel.text, "A1")
     }
 
     // MARK: - Helper
