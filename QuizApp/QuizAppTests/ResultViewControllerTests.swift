@@ -11,11 +11,13 @@ import UIKit
 
 struct PresentableAnswer {
     let question: String
+    let answer: String
     let isCorrect: Bool
 }
 
 class CorrectAnswerCell: UITableViewCell {
     let questionLabel = UILabel()
+    let answerLabel = UILabel()
 }
 
 class WrongAnswerCell: UITableViewCell {}
@@ -50,6 +52,7 @@ class ResultViewController: UIViewController, UITableViewDataSource {
         if answer.isCorrect {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CorrectCell", for: indexPath) as! CorrectAnswerCell
             cell.questionLabel.text = answer.question
+            cell.answerLabel.text = answer.answer
             return cell
         } else {
             return WrongAnswerCell()
@@ -75,11 +78,12 @@ final class ResultViewControllerTests: XCTestCase {
                        2)
     }
 
-    func test_viewDidLoadWithCorrectAnswer_should_RenderQuestionText() throws {
-        let cell = try XCTUnwrap(makeSUT(answers: [makeAnswer(question: "Q1", isCorrect: true)])
-            .cell(at: 0) as? CorrectAnswerCell)
+    func test_viewDidLoadWithCorrectAnswer_should_ConfigCorrectCell() throws {
+        let answer = makeAnswer(question: "Q1", answer: "A1", isCorrect: true)
+        let cell = try XCTUnwrap(makeSUT(answers: [answer]).cell(at: 0) as? CorrectAnswerCell)
 
         XCTAssertEqual(cell.questionLabel.text, "Q1")
+        XCTAssertEqual(cell.answerLabel.text, "A1")
     }
 
     func test_viewDidLoadWithWrongAnswer_should_RenderWrongAnswerCell() throws {
@@ -101,8 +105,8 @@ final class ResultViewControllerTests: XCTestCase {
         return sut
     }
 
-    func makeAnswer(question: String = "", isCorrect: Bool = true) -> PresentableAnswer {
-        PresentableAnswer(question: question, isCorrect: isCorrect)
+    func makeAnswer(question: String = "", answer: String = "", isCorrect: Bool = true) -> PresentableAnswer {
+        PresentableAnswer(question: question, answer: answer, isCorrect: isCorrect)
     }
 }
 
