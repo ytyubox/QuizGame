@@ -14,6 +14,7 @@ struct PresentableAnswer {
 }
 
 class CorrectAnswerCell: UITableViewCell {}
+class WrongAnswerCell: UITableViewCell {}
 
 // MARK: - ResultViewController
 
@@ -39,8 +40,10 @@ class ResultViewController: UIViewController, UITableViewDataSource {
         answers.count
     }
 
-    func tableView(_: UITableView, cellForRowAt _: IndexPath) -> UITableViewCell {
-        CorrectAnswerCell()
+    func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        answers[indexPath.row].isCorrect
+            ? CorrectAnswerCell()
+            : WrongAnswerCell()
     }
 }
 
@@ -65,6 +68,11 @@ final class ResultViewControllerTests: XCTestCase {
     func test_viewDidLoadWithCorrectAnswer_should_RenderCorrectAnswerCell() throws {
         XCTAssertTrue(makeSUT(answers: [PresentableAnswer(isCorrect: true)])
             .cell(at: 0) is CorrectAnswerCell)
+    }
+
+    func test_viewDidLoadWithWrongAnswer_should_RenderWrongAnswerCell() throws {
+        XCTAssertTrue(makeSUT(answers: [PresentableAnswer(isCorrect: false)])
+            .cell(at: 0) is WrongAnswerCell)
     }
 
     // MARK: - Helper
